@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from numpy import *
 import operator
-import matplotlib.pyplot as plt
+from numpy import *
 
 def create_data_set():
     group = array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
@@ -33,9 +32,8 @@ def classify(in_x, data_set, labels, k):
     sorted_class_count = sorted(class_count.iteritems(), key=operator.itemgetter(1), reverse=True)
     return sorted_class_count[0][0]
 
-x = array([0.2, 0.2])
-data_set, labels = create_data_set()
-print classify(x, data_set, labels, 2)
 
-
-
+if __name__ == '__main__':
+    x = array([0.2, 0.2])
+    data_set, labels = create_data_set()
+    print classify(x, data_set, labels, 2)
