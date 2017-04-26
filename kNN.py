@@ -8,6 +8,7 @@ def create_data_set():
     labels = ['A', 'A', 'B', 'B']
     return group, labels
 
+
 def classify(in_x, data_set, labels, k):
     """
     :param in_x: 输入向量，需要用户输入【x, y]。
@@ -31,6 +32,17 @@ def classify(in_x, data_set, labels, k):
     # 将字典排序时，根据那个域的值。operator.itemgetter 的参数可以为数字和名称。
     sorted_class_count = sorted(class_count.iteritems(), key=operator.itemgetter(1), reverse=True)
     return sorted_class_count[0][0]
+
+
+def auto_norm(data_set):
+    min_vals = data_set.min(0)
+    max_vals = data_set.max(0)
+    ranges = max_vals - min_vals
+    norm_data_set = zeros(shape=(data_set))
+    m = data_set.shape[0]
+    norm_data_set = data_set - tile(min_vals, (m, 1))
+    norm_data_set = norm_data_set / tile(ranges, (m, 1))
+    return norm_data_set, ranges, min_vals
 
 
 if __name__ == '__main__':
