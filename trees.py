@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from math import log
+import operator
 
 def calc_shannon_ent(data_set):
     """
@@ -41,7 +42,29 @@ def choose_best_feature_to_split(data_set):
 
     for i in range(num_features):
         feat_list = [example[i] for example in data_set]   # 对于每个向量取某维的数据，就是得到某列的值。这里没有用切片，而是用了列表表达式，感觉不是很清楚。
-           
+        unique_vals = set(feat_list)
+        new_entropy = 0.0
+        for value in unique_vals:
+            sub_data_set = split_data_set(data_set, i, value)
+            prob = len(sub_data_set) / float(len(data_set))
+            new_entropy += prob * calc_shannon_ent(sub_data_set)
+        info_gain = base_entropy - new_entropy    # 熵为负数，所以要用减号
+        if info_gain > best_info_gain:
+            best_info_gain = info_gain
+            best_feature = i
+    return best_feature
+
+
+def majorty_cnt(class_list):
+    class_count = {}
+    for vote in class_list:
+        if vote not in class_count:
+            class_count[vote] = 1
+        class_count[vote] += 1
+    sorted_class_count = sorted(class_count, key=operator.getitem(1), reverse=True)
+    return sorted_class_count[0][0]
+    
+
 
 
 
