@@ -52,9 +52,20 @@ def main():
     x_copy.sort(0)
     y_hat = x_copy * ws
     ax.plot(x_copy[:, 1], y_hat)
-    plt.show()
+    # plt.show()
 
-main()
+    # 计算相关性
+def cal_corrcoef():
+    x_arr, y_arr = load_data_set('ex0.txt')
+    ws = stand_regress(x_arr, y_arr)
+    print(ws)
+    x_mat = mat(x_arr)
+    y_mat = mat(y_arr)
+    y_hat = x_mat * ws
+    print corrcoef(y_hat.T, y_mat)
+
+# main()
+cal_corrcoef()
 
 
 
