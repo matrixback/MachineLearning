@@ -58,7 +58,7 @@ def plot_best_fit(weights):
     plt.show()
 
 
-def stoc_grad_ascentd0(data, label):
+def stoc_grad_ascent0(data, label):
     m, n = np.shape(data)
     alpha = 0.01
     weights = np.ones(n)
@@ -69,10 +69,36 @@ def stoc_grad_ascentd0(data, label):
     return weights
 
 
-if __name__ == '__main__':
+def stoc_grad_ascent1(data, label, num_iter=150):
+    m, n = np.shape(data)
+    weights = np.ones(n)
+
+    for j in range(num_iter):
+        data_index = range(m)
+        for i in range(m):
+            alpha = 4 / (1.0 + j +i) + 0.01
+            rand_index = int(np.random.uniform(0, len(data_index)))
+            h = sigmoid(sum(data[rand_index]*weights))
+            error = h - label[rand_index]
+            weights -= alpha * error * data[rand_index]
+            del(data_index[rand_index])
+    return weights
+
+def do_grad_ascend():
     data, label = load_set()
-    weights = stoc_grad_ascentd0(np.array(data), label)
+    weights = grad_ascent(data, label)
     print weights
     plot_best_fit(weights)
+
+
+def do_stoc_grad_ascend():
+    data, label = load_set()
+    weights = stoc_grad_ascent1(np.array(data), label)
+    print weights
+    plot_best_fit(weights)
+
+
+if __name__ == '__main__':
+    do_stoc_grad_ascend()
 
 
